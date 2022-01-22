@@ -2,7 +2,7 @@ import { signInWithEmailAndPassword } from "@firebase/auth"
 import { auth } from "config/firebase"
 import { useEffect, useState } from "react"
 
-const email = process.env.REACT_APP_EMAIL
+export const email = process.env.REACT_APP_EMAIL
 
 const useAuth = () => {
   const [authendticated, setAuthenticated] = useState<boolean>()

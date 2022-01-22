@@ -1,9 +1,10 @@
 import { FC } from "react"
-import useAuth from "data/useAuth"
+import useAuth, { email } from "data/useAuth"
 import SignIn from "auth/SignIn"
 
 const InitAuth: FC = ({ children }) => {
   const [authenticated, signIn] = useAuth()
+  if (!email) return <>Email not found</>
   if (typeof authenticated !== "boolean") return null
   return authenticated ? <>{children}</> : <SignIn onSubmit={signIn} />
 }
