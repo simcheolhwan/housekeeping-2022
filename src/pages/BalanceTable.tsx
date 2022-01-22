@@ -25,18 +25,21 @@ const BalanceTable = ({ title, data, balanceKey }: Props) => {
           {
             dataIndex: "balance",
             align: "right",
-            render: (n: number, { name }) => (
-              <Text
-                onClick={async () => {
-                  const input = window.prompt()
-                  const value = Number(input)
-                  if (!input || !Number.isInteger(value)) return
+            render: (n: number, { name }) => {
+              const handleClick = async () => {
+                const input = window.prompt()
+                const value = Number(input)
+                if (!input || !Number.isInteger(value)) return
+
+                if (input.startsWith("+") || input.startsWith("-")) {
+                  await setBalance(balanceKey, name, n + value)
+                } else {
                   await setBalance(balanceKey, name, value)
-                }}
-              >
-                {n.toLocaleString()}
-              </Text>
-            ),
+                }
+              }
+
+              return <Text onClick={handleClick}>{n.toLocaleString()}</Text>
+            },
           },
         ]}
         dataSource={dataSource}

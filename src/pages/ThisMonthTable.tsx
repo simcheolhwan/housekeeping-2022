@@ -37,7 +37,12 @@ const ThisMonthTable = ({ title, data, dataKey }: Props) => {
                       const input = window.prompt()
                       const value = Number(input)
                       if (!input || !Number.isInteger(value)) return
-                      await setAnnualItem(dataKey, title, value)
+
+                      if (input.startsWith("+") || input.startsWith("-")) {
+                        await setAnnualItem(dataKey, title, n + value)
+                      } else {
+                        await setAnnualItem(dataKey, title, value)
+                      }
                     }}
                     key="0"
                   >
