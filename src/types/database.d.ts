@@ -9,6 +9,8 @@ interface Balance {
   custody: BalanceData
 }
 
+type BalanceKey = keyof Balance
+
 interface BalanceData {
   [name: string]: number
 }

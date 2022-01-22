@@ -1,14 +1,14 @@
-import { Button, Space, Table, Typography } from "antd"
-import { PlusOutlined } from "@ant-design/icons"
+import { Space, Table, Typography } from "antd"
 import { toPairs } from "ramda"
 import { setBalance } from "data/write"
+import AddBalanceItem from "./AddBalanceItem"
 
 const { Text } = Typography
 
 interface Props {
   title: string
   data: BalanceData
-  balanceKey: keyof Balance
+  balanceKey: BalanceKey
 }
 
 const BalanceTable = ({ title, data, balanceKey }: Props) => {
@@ -46,9 +46,7 @@ const BalanceTable = ({ title, data, balanceKey }: Props) => {
         bordered
       />
 
-      <Button block>
-        <PlusOutlined />
-      </Button>
+      <AddBalanceItem balanceKey={balanceKey} />
     </Space>
   )
 }

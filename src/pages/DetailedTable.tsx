@@ -1,5 +1,5 @@
-import { Button, Space, Table } from "antd"
-import { PlusOutlined } from "@ant-design/icons"
+import { Space, Table } from "antd"
+import AddDetailedItem from "./AddDetailedItem"
 
 interface Props {
   title: string
@@ -7,7 +7,7 @@ interface Props {
   dataKey: "earn" | "spend"
 }
 
-const DetailedTable = ({ title, data }: Props) => {
+const DetailedTable = ({ title, data, dataKey }: Props) => {
   return (
     <Space direction="vertical">
       <Table
@@ -29,9 +29,7 @@ const DetailedTable = ({ title, data }: Props) => {
         bordered
       />
 
-      <Button block>
-        <PlusOutlined />
-      </Button>
+      <AddDetailedItem dataKey={dataKey} />
     </Space>
   )
 }

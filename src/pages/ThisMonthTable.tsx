@@ -1,9 +1,9 @@
-import { Button, Dropdown, Menu, Space, Table, Typography } from "antd"
-import { PlusOutlined } from "@ant-design/icons"
+import { Dropdown, Menu, Space, Table, Typography } from "antd"
 import { toPairs } from "ramda"
 import { thisMonth } from "data/read"
-import { setAnnualData } from "data/write"
+import { setAnnualItem } from "data/write"
 import { useBalanceError } from "data/calc"
+import AddThisMonthItem from "./AddThisMonthItem"
 
 const { Text } = Typography
 
@@ -37,7 +37,7 @@ const ThisMonthTable = ({ title, data, dataKey }: Props) => {
                       const input = window.prompt()
                       const value = Number(input)
                       if (!input || !Number.isInteger(value)) return
-                      await setAnnualData(dataKey, title, value)
+                      await setAnnualItem(dataKey, title, value)
                     }}
                     key="0"
                   >
@@ -53,7 +53,7 @@ const ThisMonthTable = ({ title, data, dataKey }: Props) => {
                           income: n + balanceError,
                           expense: n - balanceError,
                         }[dataKey]
-                        await setAnnualData(dataKey, title, value)
+                        await setAnnualItem(dataKey, title, value)
                       }}
                       key="1"
                     >
@@ -82,9 +82,7 @@ const ThisMonthTable = ({ title, data, dataKey }: Props) => {
         bordered
       />
 
-      <Button block>
-        <PlusOutlined />
-      </Button>
+      <AddThisMonthItem dataKey={dataKey} />
     </Space>
   )
 }
