@@ -26,5 +26,5 @@ interface DetailedItem {
   month: number
   amount: number
   category?: string
-  content: string
+  content?: string
 }
