@@ -17,7 +17,7 @@ export const addAnnualItem = async (
   title: string
 ) => {
   const dataRef = ref(db, `/annual/${thisYear}/${key}/${title}`)
-  const initial = Array.from({ length: thisMonth + 1 }, () => 0)
+  const initial = Array.from({ length: 12 }, () => 0)
   await set(dataRef, initial)
 }
 
