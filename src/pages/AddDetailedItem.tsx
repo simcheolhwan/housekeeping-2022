@@ -11,6 +11,7 @@ const AddDetailedItem = ({ dataKey }: { dataKey: "earn" | "spend" }) => {
     const { month, amount, ...rest } = await form.validateFields()
     const item = { month: Number(month), amount: Number(amount), ...rest }
     await addDetailedItem(dataKey, item)
+    form.resetFields()
   }
 
   return (

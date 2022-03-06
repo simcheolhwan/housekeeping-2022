@@ -8,6 +8,7 @@ const AddBalanceItem = ({ balanceKey }: { balanceKey: BalanceKey }) => {
   const submit = async () => {
     const { name, value } = await form.validateFields()
     await setBalance(balanceKey, name, Number(value))
+    form.resetFields()
   }
 
   return (

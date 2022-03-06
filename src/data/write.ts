@@ -12,6 +12,18 @@ export const setBalance = async (
   await set(dataRef, value)
 }
 
+export const setBalanceName = async (
+  key: BalanceKey,
+  oldName: string,
+  newName: string
+) => {
+  const dataRef = ref(db, `/balance/${key}`)
+  const prev = (await get(dataRef)).val()
+  const value = (await get(ref(db, `/balance/${key}/${oldName}`))).val()
+  const updates = { ...prev, [oldName]: null, [newName]: value }
+  await set(dataRef, updates)
+}
+
 export const addAnnualItem = async (
   key: "income" | "expense",
   title: string

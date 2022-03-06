@@ -1,6 +1,6 @@
 import { Space, Table, Typography } from "antd"
 import { toPairs } from "ramda"
-import { setBalance } from "data/write"
+import { setBalance, setBalanceName } from "data/write"
 import AddBalanceItem from "./AddBalanceItem"
 
 const { Text } = Typography
@@ -21,7 +21,20 @@ const BalanceTable = ({ title, data, balanceKey }: Props) => {
       <Table
         title={() => title}
         columns={[
-          { dataIndex: "name" },
+          {
+            dataIndex: "name",
+            render: (name) => (
+              <Text
+                onClick={async () => {
+                  const input = window.prompt()
+                  if (!input) return
+                  await setBalanceName(balanceKey, name, input)
+                }}
+              >
+                {name}
+              </Text>
+            ),
+          },
           {
             dataIndex: "balance",
             align: "right",

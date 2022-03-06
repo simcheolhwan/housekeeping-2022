@@ -8,6 +8,7 @@ const AddThisMonthItem = ({ dataKey }: { dataKey: "income" | "expense" }) => {
   const submit = async () => {
     const { name } = await form.validateFields()
     await addAnnualItem(dataKey, name)
+    form.resetFields()
   }
 
   return (
