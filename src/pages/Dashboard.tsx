@@ -3,18 +3,23 @@ import { PageHeader, Space } from "antd"
 import ErrorFallback from "./ErrorFallback"
 import Balance from "./Balance"
 import ThisMonth from "./ThisMonth"
+import Summary from "./Summary"
 
 const Dashboard = () => {
   return (
     <PageHeader>
-      <Space direction="vertical" size="large">
-        <ErrorBoundary FallbackComponent={ErrorFallback}>
-          <Balance />
-        </ErrorBoundary>
+      <Space direction="vertical">
+        <Summary />
 
-        <ErrorBoundary FallbackComponent={ErrorFallback}>
-          <ThisMonth />
-        </ErrorBoundary>
+        <Space align="start" size="large">
+          <ErrorBoundary FallbackComponent={ErrorFallback}>
+            <Balance />
+          </ErrorBoundary>
+
+          <ErrorBoundary FallbackComponent={ErrorFallback}>
+            <ThisMonth />
+          </ErrorBoundary>
+        </Space>
       </Space>
     </PageHeader>
   )
