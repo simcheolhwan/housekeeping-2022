@@ -51,3 +51,14 @@ export const addDetailedItem = async (
   const next = [...prev, pickBy((v) => !isNil(v), item)]
   await set(dataRef, next)
 }
+
+export const setDetailedItem = async (
+  key: "earn" | "spend",
+  index: number,
+  item: DetailedItem
+) => {
+  const dataRef = ref(db, `/annual/${thisYear}/${key}`)
+  const prev: DetailedItem[] = (await get(dataRef)).val()
+  const next = prev.map((prevItem, i) => (i === index ? item : prevItem))
+  await set(dataRef, next)
+}

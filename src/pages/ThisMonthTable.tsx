@@ -3,6 +3,7 @@ import { toPairs } from "ramda"
 import { thisMonth } from "data/read"
 import { setAnnualItem } from "data/write"
 import { useBalanceError } from "data/calc"
+import { promptNumber } from "./helpers"
 import AddThisMonthItem from "./AddThisMonthItem"
 
 const { Text } = Typography
@@ -30,17 +31,8 @@ const ThisMonthTable = ({ title, data, dataKey }: Props) => {
             dataIndex: "amount",
             align: "right",
             render: (n: number, { title }) => {
-              const edit = async () => {
-                const input = window.prompt()
-                const value = Number(input)
-                if (!input || !Number.isInteger(value)) return
-
-                if (input.startsWith("+") || input.startsWith("-")) {
-                  await setAnnualItem(dataKey, title, n + value)
-                } else {
-                  await setAnnualItem(dataKey, title, value)
-                }
-              }
+              const edit = () =>
+                promptNumber(n, (value) => setAnnualItem(dataKey, title, value))
 
               const auto = async () => {
                 const value = {

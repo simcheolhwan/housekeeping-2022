@@ -1,5 +1,9 @@
-import { Space, Table } from "antd"
+import { Space, Table, Typography } from "antd"
+import { setDetailedItem } from "data/write"
+import { promptNumber } from "./helpers"
 import AddDetailedItem from "./AddDetailedItem"
+
+const { Text } = Typography
 
 interface Props {
   title: string
@@ -19,7 +23,14 @@ const DetailedTable = ({ title, data, dataKey }: Props) => {
           {
             dataIndex: "amount",
             align: "right",
-            render: (n: number) => n.toLocaleString(),
+            render: (n: number, record, index) => {
+              const edit = () =>
+                promptNumber(n, (value) =>
+                  setDetailedItem(dataKey, index, { ...record, amount: value })
+                )
+
+              return <Text onClick={edit}>{n.toLocaleString()}</Text>
+            },
           },
         ]}
         dataSource={data}

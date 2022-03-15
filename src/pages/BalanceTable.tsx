@@ -1,6 +1,7 @@
 import { Space, Table, Typography } from "antd"
 import { toPairs } from "ramda"
 import { setBalance, setBalanceName } from "data/write"
+import { promptNumber } from "./helpers"
 import AddBalanceItem from "./AddBalanceItem"
 
 const { Text } = Typography
@@ -39,19 +40,10 @@ const BalanceTable = ({ title, data, balanceKey }: Props) => {
             dataIndex: "balance",
             align: "right",
             render: (n: number, { name }) => {
-              const handleClick = async () => {
-                const input = window.prompt()
-                const value = Number(input)
-                if (!input || !Number.isInteger(value)) return
+              const edit = () =>
+                promptNumber(n, (value) => setBalance(balanceKey, name, value))
 
-                if (input.startsWith("+") || input.startsWith("-")) {
-                  await setBalance(balanceKey, name, n + value)
-                } else {
-                  await setBalance(balanceKey, name, value)
-                }
-              }
-
-              return <Text onClick={handleClick}>{n.toLocaleString()}</Text>
+              return <Text onClick={edit}>{n.toLocaleString()}</Text>
             },
           },
         ]}
