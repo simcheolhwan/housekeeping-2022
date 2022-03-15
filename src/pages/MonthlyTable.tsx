@@ -20,7 +20,7 @@ const MonthlyTable = ({ data }: { data: { [title: string]: number[] } }) => {
             return {
               dataIndex: label,
               title: label,
-              render: (value: number) => value > 0 && value.toLocaleString(),
+              render: (value: number) => value !== 0 && value.toLocaleString(),
               align: "center" as const,
             }
           }),

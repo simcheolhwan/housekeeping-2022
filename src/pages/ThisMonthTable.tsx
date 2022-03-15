@@ -30,52 +30,50 @@ const ThisMonthTable = ({ title, data, dataKey }: Props) => {
             dataIndex: "amount",
             align: "right",
             render: (n: number, { title }) => {
+              const edit = async () => {
+                const input = window.prompt()
+                const value = Number(input)
+                if (!input || !Number.isInteger(value)) return
+
+                if (input.startsWith("+") || input.startsWith("-")) {
+                  await setAnnualItem(dataKey, title, n + value)
+                } else {
+                  await setAnnualItem(dataKey, title, value)
+                }
+              }
+
+              const auto = async () => {
+                const value = {
+                  income: n + balanceError,
+                  expense: n - balanceError,
+                }[dataKey]
+                await setAnnualItem(dataKey, title, value)
+              }
+
               const menu = (
                 <Menu>
-                  <Menu.Item
-                    onClick={async () => {
-                      const input = window.prompt()
-                      const value = Number(input)
-                      if (!input || !Number.isInteger(value)) return
-
-                      if (input.startsWith("+") || input.startsWith("-")) {
-                        await setAnnualItem(dataKey, title, n + value)
-                      } else {
-                        await setAnnualItem(dataKey, title, value)
-                      }
-                    }}
-                    key="0"
-                  >
+                  <Menu.Item onClick={edit} key="0">
                     편집
                   </Menu.Item>
 
                   <Menu.Divider />
 
-                  {!!balanceError && (
-                    <Menu.Item
-                      onClick={async () => {
-                        const value = {
-                          income: n + balanceError,
-                          expense: n - balanceError,
-                        }[dataKey]
-                        await setAnnualItem(dataKey, title, value)
-                      }}
-                      key="1"
-                    >
-                      {(balanceError > 0 && dataKey === "income") ||
-                      (balanceError < 0 && dataKey === "expense")
-                        ? "+"
-                        : "-"}
-                      {Math.abs(balanceError).toLocaleString()}
-                    </Menu.Item>
-                  )}
+                  <Menu.Item onClick={auto} key="1">
+                    {(balanceError > 0 && dataKey === "income") ||
+                    (balanceError < 0 && dataKey === "expense")
+                      ? "+"
+                      : "-"}
+                    {Math.abs(balanceError).toLocaleString()}
+                  </Menu.Item>
                 </Menu>
               )
 
-              return (
+              return balanceError ? (
                 <Dropdown overlay={menu} trigger={["click"]}>
                   <Text>{n.toLocaleString()}</Text>
                 </Dropdown>
+              ) : (
+                <Text onClick={edit}>{n.toLocaleString()}</Text>
               )
             },
           },
