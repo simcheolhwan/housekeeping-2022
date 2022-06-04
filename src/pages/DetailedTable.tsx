@@ -1,5 +1,7 @@
+import { useState } from "react"
 import { Space, Table, Typography } from "antd"
 import { setDetailedItem } from "data/write"
+import { thisMonth } from "data/read"
 import { promptNumber } from "./helpers"
 import AddDetailedItem from "./AddDetailedItem"
 
@@ -12,10 +14,13 @@ interface Props {
 }
 
 const DetailedTable = ({ title, data, dataKey }: Props) => {
+  const [showAll, setShowAll] = useState(false)
+  const toggle = () => setShowAll(!showAll)
+
   return (
     <Space direction="vertical">
       <Table
-        title={() => title}
+        title={() => <span onClick={toggle}>{title}</span>}
         columns={[
           { dataIndex: "month" },
           { dataIndex: "category" },
@@ -33,7 +38,9 @@ const DetailedTable = ({ title, data, dataKey }: Props) => {
             },
           },
         ]}
-        dataSource={data}
+        dataSource={
+          showAll ? data : data.filter(({ month }) => month === thisMonth + 1)
+        }
         rowKey={(item) => JSON.stringify(item)}
         pagination={false}
         showHeader={false}
