@@ -4,6 +4,7 @@ import { setDetailedItem } from "data/write"
 import { thisMonth } from "data/read"
 import { promptNumber } from "./helpers"
 import AddDetailedItem from "./AddDetailedItem"
+import { equals } from "ramda"
 
 const { Text } = Typography
 
@@ -28,7 +29,9 @@ const DetailedTable = ({ title, data, dataKey }: Props) => {
           {
             dataIndex: "amount",
             align: "right",
-            render: (n: number, record, index) => {
+            render: (n: number, record) => {
+              const index = data.findIndex((item) => equals(item, record))
+
               const edit = () =>
                 promptNumber(n, (value) =>
                   setDetailedItem(dataKey, index, { ...record, amount: value })
