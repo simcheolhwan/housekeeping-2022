@@ -1,10 +1,10 @@
 import { useState } from "react"
 import { Space, Table, Typography } from "antd"
+import { equals, sum } from "ramda"
 import { setDetailedItem } from "data/write"
 import { thisMonth } from "data/read"
 import { promptNumber } from "./helpers"
 import AddDetailedItem from "./AddDetailedItem"
-import { equals } from "ramda"
 
 const { Text } = Typography
 
@@ -18,10 +18,20 @@ const DetailedTable = ({ title, data, dataKey }: Props) => {
   const [showAll, setShowAll] = useState(false)
   const toggle = () => setShowAll(!showAll)
 
+  const dataSource = showAll
+    ? data
+    : data.filter(({ month }) => month === thisMonth + 1)
+
+  const total = sum(dataSource.map(({ amount }) => amount))
+
   return (
     <Space direction="vertical">
       <Table
-        title={() => <span onClick={toggle}>{title}</span>}
+        title={() => (
+          <span onClick={toggle}>
+            {title} {total.toLocaleString()}
+          </span>
+        )}
         columns={[
           { dataIndex: "month" },
           { dataIndex: "category" },
@@ -41,9 +51,7 @@ const DetailedTable = ({ title, data, dataKey }: Props) => {
             },
           },
         ]}
-        dataSource={
-          showAll ? data : data.filter(({ month }) => month === thisMonth + 1)
-        }
+        dataSource={dataSource}
         rowKey={(item) => JSON.stringify(item)}
         pagination={false}
         showHeader={false}
